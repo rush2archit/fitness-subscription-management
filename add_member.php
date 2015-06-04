@@ -16,48 +16,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-
-		<script>
-		$(function() {
-			$( "#datepicker" ).datepicker();
-		});
-		</script>
-
-		<script>
-		$(function() {
-			$( "#DOB" ).datepicker();
-		});
-		</script>
-
-		<script>
-		$('#btn-create').click(function() {
-			/* when the button in the form, display the entered values in the modal */
-			
-
-			$('#lname').html($('#Name').val());
-			$('#fname').html($('#Height').val());
-
-		});
-		</script>
-
-
-		<script>
-		$('#submit').click(function(){
-			/* when the submit button in the modal is clicked, submit the form */
-			alert('submitting');
-			$('#new_member_form').submit();
-		});
-
-		</script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	</head>
-
-
 
 
 	<body>
@@ -72,10 +32,6 @@
 				<button class="btn btn-primary pull-right btn-sm"  type="button" onclick="window.location='logout.php';">Logout</button>
 			</ul>
 		</div>
-
-
-
-
 	
 	<form role="form" id="new_member_form" class="form-horizontal" method="post"  action="inserter.php" onsubmit="return validateForm();">
 			<input type="hidden" name="action" value="add_form" /> 
@@ -99,10 +55,6 @@
 			</div>
 
 		</div>
-
-
-
-
 		
 		<div class="form-group">
 			<label for="Gender" class="col-sm-2 control-label">Gender</label>
@@ -173,7 +125,7 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="button" id="btn-create" name="btn-create" value="Submit" data-toggle="modal" data-target="#confirm-submit" class="btn btn-primary">Create Member</button>
+				<button type="button" id="btn-create" class="btn btn-primary">Create Member</button>
 			</div>
 		</div>
 	</form>
@@ -209,7 +161,35 @@
 		</div>
 	</div>
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> -->
+	<!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+	<script>
+	$(function() {
+		$( "#datepicker" ).datepicker();
+
+		$('#DOB').datepicker();
+
+		$('#submit').click(function(){
+			/* when the submit button in the modal is clicked, submit the form */
+			alert('submitting');
+			$('#new_member_form').submit();
+		});
+
+		$('#btn-create').click(function() {
+			/* when the button in the form, display the entered values in the modal */
+			
+
+			$('#lname').html($('#Name').val());
+			$('#fname').html($('#Height').val());
+			$('#confirm-submit').modal('show');
+
+		});
+	});
+	</script>
+
 	</body>
 	</html>
-
-
