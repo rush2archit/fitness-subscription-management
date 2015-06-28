@@ -2,12 +2,13 @@
 	session_start();
 	$connection = mysql_connect("localhost", "root", ""); // Establishing Connection with Server..
 	$db = mysql_select_db("tgym", $connection); // Selecting Database
-	//Fetching Values from URL
+	
+
 	$username=$_POST['username'];
 	$password=$_POST['password'];
 
 	
-	//Insert query
+	//fetch admin id from db 
 	$sql=mysql_query("select * from admin_credentials where username like '$username' AND password like '$password'");
 				while($row=mysql_fetch_array($sql))
 				{
