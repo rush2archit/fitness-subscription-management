@@ -13,7 +13,6 @@
 		?>
 	</title>
 
-
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -42,7 +41,7 @@
 
 			$member_id=$_GET['member_id'];
 
-			$sql=mysql_query("SELECT *,b.end_date-current_date as days_left FROM basic_package b join packages p on b.package_id=p.package_id where b.member_id=$member_id order by b.end_date");
+			$sql=mysql_query("SELECT *,t.end_date-current_date as days_left FROM training_package t join packages p on t.package_id=p.package_id where t.member_id=$member_id order by t.end_date");
 			$i=1;
 			while($row=mysql_fetch_array($sql))
 			{	
@@ -70,14 +69,13 @@
 				echo "<td>$paid</td>";
 				echo "<td>$amount_left</td>";
 				echo "<td></td>";
-				echo "</tr>";
 
 			}
 			?>
 
 		</table>
 		<form class="form-horizontal" method="post" id="package_form" 
-		action="inserter2.php?member_id=<?php echo $_GET['member_id'];?>&package=basic">
+		action="inserterx.php?member_id=<?php echo $_GET['member_id'];?>&package=training">
 		<br>
 		<br>
 		<br>
@@ -92,13 +90,13 @@
 			<br>
 
 			<div class="form-group">
-				<label for="b_package" class="col-sm-2 control-label">Basic Package</label>
+				<label for="b_package" class="col-sm-2 control-label">Training Package</label>
 				<div class="col-sm-2">
-					<select name="b_package" id="b_package" class="form-control" data-style="btn-primary">
+					<select name="t_package" id="t_package" class="form-control" data-style="btn-primary">
 						<option selected="selected" value="NULL">--Select Package--</option>
 						<?php
 
-						$sql1=mysql_query("select * from packages where p_name like 'B_%'");
+						$sql1=mysql_query("select * from packages where p_name like '%PRIME_%'");
 						while($row1=mysql_fetch_array($sql1))
 						{
 							$package_id=$row1['package_id'];
@@ -118,10 +116,10 @@
 					</select>
 				</div>
 				<div class="col-sm-2">
-					<input type="number" class="form-control" name="b_amount" placeholder="Amount Paid" >
+					<input type="number" class="form-control" name="t_amount" placeholder="Amount Paid" >
 				</div>
 				<div class="col-sm-2">
-					<input type="text" id="b_date" name="b_date" class="form-control" placeholder="Start Date">
+					<input type="text" id="t_date" name="t_date" class="form-control" placeholder="Start Date">
 				</div>
 				
 			</div>
@@ -141,7 +139,7 @@
 		$(function() {
 
 
-			$('#b_date').datepicker();
+			$('#t_date').datepicker();
 
 		});
 		</script>

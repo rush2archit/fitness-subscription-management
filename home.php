@@ -86,7 +86,7 @@
 					//print "</td> <td>";
 
 				print "</td> <td> <input  type='button' id='modal_display' data-toggle='modal'
-				class='btn btn-danger btn-xs'	data-target='#modal_details' name='$member_id' value='$name';\">";
+				class='btn btn-danger btn-xs'	data-target='#modal_details' name='$member_id' value='$name'>";
 					//echo $name; 
 				print "</td> <td>";
 				echo $contact; 
@@ -227,7 +227,6 @@
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<a id="submit" class="btn btn-success success">Submit</a>
 			</div>
 		</div>
 	</div>
@@ -271,9 +270,9 @@ $(function() {
 
 		/* when the button in the form, display the entered values in the modal */
 		
-		var id1 = $(this).attr('name');
+		//var id1 = $(this).attr('name');
 
-		$('#Occupation1').html(id1);
+		//$('#Occupation1').html(id1);
 		$('#modal_details').modal('show');
 
 	});
