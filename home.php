@@ -17,6 +17,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="sorttable.js"></script>
 	
 
 </head>
@@ -43,25 +44,29 @@
 			$birthday = $data['total'];
 
 			if ($_SESSION['access_level1']==1)
-				print('<li role="presentation" ><a href="manage_admin.php">Manage Admin</a></li>') ;
+				{	
+					print('<li role="presentation" ><a href="manage_admin.php">Manage Admin</a></li>') ;
+					print('<li role="presentation" ><a href="manage_package.php">Package & Offers</a></li>') ;
+				}
+
 
 			print ('<li role="presentation"><a href="birthday.php">Birthday <span class="badge">'.$birthday.'</span></a></li>');
 			?>
-			<button class="btn btn-primary pull-right btn-sm" id="logout" name="logout" type="button" 
+			<button class="btn btn-primary pull-right btn-sm" id="logout" name="logout" type="button" onclick="window.location='index.php';"
 			>Logout</button>
 		</ul>
 	</div>
 
 	<div class = "container" >
-		<table name="table" id="table" class ="table">
+		<table name="table" id="table" class ="table sortable" >
 		</br>
 
-		<tr><th>IMAGE</th><th>NAME</th><th>CONTACT</th><th>FORM_NO</th>
+		<tr><th>NAME</th><th>CONTACT</th><th>FORM_NO</th>
 			<th>BASIC</th><th>TRAINING</th><th>DIET</th><th>DETAILS</th></tr>
 
 			<?php
 
-//onclick="window.location='logout.php';"
+
 			$sql=mysql_query("select * from member_info ");
 			while($row=mysql_fetch_array($sql))
 			{	
@@ -85,7 +90,8 @@
 					//print "<img src='images/1.jpg'  alt='icon' style='width:70px;height:70px;'>";
 					//print "</td> <td>";
 
-				print "</td> <td> <input  type='button' id='modal_display' data-toggle='modal'
+				
+				print "<input  type='button' id='modal_display' data-toggle='modal'
 				class='btn btn-danger btn-xs'	data-target='#modal_details' name='$member_id' value='$name'>";
 					//echo $name; 
 				print "</td> <td>";
@@ -99,12 +105,14 @@
 						$b_amt_left=$row1[0];
 						$b_left=$row1[1];
 
-						print "</td> <td><button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('b_edit.php?member_id=$member_id','popUpWindow$member_id','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">BASIC<span class='badge'>$b_left</span><span class='badge'>$b_amt_left</span></button>";
+						print "</td> <td>";
+						print "<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('b_edit.php?member_id=$member_id','popUpWindow$member_id','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">BASIC<span class='badge'>$b_left</span><span class='badge'>$b_amt_left</span></button>";
 					}
 				}
 				else
 				{
-					print "</td> <td><button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('b_edit.php?member_id=$member_id','popUpWindow$member_id','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">BASIC<span class='badge'>--</span><span class='badge'>--</span></button>";
+					print "</td> <td>";
+					print "<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('b_edit.php?member_id=$member_id','popUpWindow$member_id','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">BASIC<span class='badge'>--</span><span class='badge'>--</span></button>";
 				}
 
 
@@ -117,11 +125,12 @@
 						$t_amt_left=$row2[0];
 						$t_left=$row2[1];
 
-						print "</td> <td>
-						<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('t_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">TRAINING <span class='badge'>$t_left
+						print "</td> <td>";
+						print "<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('t_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">TRAINING <span class='badge'>$t_left
 						</span><span class='badge'>$t_amt_left</span></button>";}}
 						else{
-							print "</td> <td><button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('t_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">
+							print "</td> <td>";
+							print "<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('t_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">
 							TRAINING <span class='badge'>--</span><span class='badge'>--</span></button>";
 						}
 
@@ -134,18 +143,19 @@
 							while ($row3=mysql_fetch_array($sql3)) {
 								$d_amt_left=$row3[0];
 								$d_left=$row3[1];
-								print "</td> <td>
-								<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('d_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">DIET
+								print "</td> <td>";
+								print "<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('d_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">DIET
 								<span class='badge'>$d_left</span>
 								<span class='badge'>$d_amt_left</span></button>";
 							}}
 							else{
-								print "</td> <td>
-								<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('d_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">DIET <span class='badge'>
+								print "</td> <td>";
+								print "<button class='btn btn-danger btn-xs' type='button' onclick=\"window.open('d_edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">DIET <span class='badge'>
 								--</span><span class='badge'>--</span></button>";	
 							}
 
-							print "</td> <td> <input id=$member_id type='button' class='btn btn-info btn-xs' name='EDIT' value='Edit' onclick=\"window.open('edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">";
+							print "</td> <td>";
+							print " <input id=$member_id type='button' class='btn btn-info btn-xs' name='EDIT' value='Edit' onclick=\"window.open('edit.php?member_id=$member_id','popUpWindow','resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');\">";
 
 							print "</td> </tr>";
 						}

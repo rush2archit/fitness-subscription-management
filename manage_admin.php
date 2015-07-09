@@ -43,11 +43,14 @@
 			$birthday = $data['total'];
 
 			if ($_SESSION['access_level1']==1)
-				print('<li role="presentation" class="active"><a href="manage_admin.php">Manage Admin</a></li>') ;
+				{
+					print('<li role="presentation" class="active"><a href="manage_admin.php">Manage Admin</a></li>') ;
+					print('<li role="presentation" ><a href="manage_package.php">Package & Offers</a></li>') ;
+				}
 
 			print ('<li role="presentation"><a href="birthday.php">Birthday <span class="badge">'.$birthday.'</span></a></li>');
 			?>
-			<button class="btn btn-primary pull-right btn-sm" id="logout" name="logout" type="button" 
+			<button class="btn btn-primary pull-right btn-sm" id="logout" name="logout" type="button" onclick="window.location='index.php';"
 			>Logout</button>
 		</ul>
 	</div>
@@ -91,7 +94,7 @@
 
 <div class = "container" >
 
-	<table name="admin_table" id="admin_table" class ="table">
+	<table name="admin_table" id="admin_table" class ="table sortable">
 	</br>
 	<tr><th>#</th><th>NAME</th><th>ACCESS_LEVEL</th></tr>
 
@@ -105,7 +108,8 @@
 
 		print "<tr><td>";
 		echo $admin_id;
-		print "</td> <td> <input  type='button' id='modal_display' data-toggle='modal'
+		print "</td> <td>";
+		 print "<input  type='button' id='modal_display' data-toggle='modal'
 		class='btn btn-danger btn-xs'	data-target='#modal_details' name='$admin_id' value='$name'>";
 		print "</td> <td>";
 		echo $access_level; 
@@ -144,6 +148,7 @@ aria-labelledby="myModalLabel" aria-hidden="true">
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> -->
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="sorttable.js"></script>
 
 
 <script>

@@ -37,6 +37,8 @@
 				$dbpassword = "";
 				$dbname = "tgym";
 
+
+
 				$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
 				$db = mysql_select_db($dbname);
 
@@ -48,11 +50,14 @@
 				$birthday = $data['total'];
 
 				if ($_SESSION['access_level1']==1)
-					print('<li role="presentation" ><a href="manage_admin.php">Manage Admin</a></li>') ;
+					{
+						print('<li role="presentation" ><a href="manage_admin.php">Manage Admin</a></li>') ;
+						print('<li role="presentation" ><a href="manage_package.php">Package & Offers</a></li>') ;
+					}
 				
 				print ('<li role="presentation" class="active"><a href="birthday.php">Birthday <span class="badge">'.$birthday.'</span></a></li>');
 				?>
-				<button class="btn btn-primary pull-right btn-sm"  type="button" onclick="window.location='logout.php';">Logout</button>
+				<button class="btn btn-primary pull-right btn-sm"  type="button" onclick="window.location='index.php';">Logout</button>
 			</ul>
 		</div>
 		<div class = "container" >

@@ -9,6 +9,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+  <?php
+    session_start();
+  ?>
+
  <script type="text/javascript">
  $(document).ready(function(){
   $("#login").click(function(){
@@ -33,8 +37,8 @@
               if(result=='error'){
                 alert('Invalid Credentials'); //throw error if invalid credentials 
                 }else{
-                  var details= 'home.php?'+result;//includes id,name and access level
-                   window.location.href='home.php';
+                  //var details= 'home.php?'+result;//includes id,name and access level
+                   window.location.href='home.php?';
                 }
              
               }
@@ -50,6 +54,12 @@
 
 
 <body>
+  <?php
+  // remove all session variables
+session_unset(); 
+
+// destroy the session 
+session_destroy();?>
   <div class="row">
   </div>
   <div id="myDiv" >

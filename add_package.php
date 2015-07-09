@@ -165,8 +165,6 @@
 
 		<script>
 		$(function() {
-			$("#datepicker").datepicker();
-
 			$('#b_date').datepicker();
 
 			$('#t_date').datepicker();
@@ -175,3 +173,4 @@
 		});
 		</script>
 </body>
+</html>
