@@ -3,14 +3,7 @@ session_start();
 $package_id=$_GET['id'];
 $p_status=$_GET['status'];
 
-///echo $member_id;
-$dbhost = "localhost";
-$dbusername = "root";
-$dbpassword = "";
-$dbname = "tgym";
-
-$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-$db = mysql_select_db($dbname);
+require_once('db/db_config.php');
 
 if ($p_status=='ACTIVE') {
 	$p_status='DEACTIVE';

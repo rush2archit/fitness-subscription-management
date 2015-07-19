@@ -1,53 +1,65 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <!-- This is for loading external scripts -->
+    <!-- this is for session check & tab/page title -->
     <title>
-        <?php session_start(); if(!isset($_SESSION[ 'name1'])) { header( "Location: index.php"); } echo "Enter Member Details"; ?>
+        <?php 
+        session_start();
+        if(!isset($_SESSION[ 'name1'])) { 
+            header( "Location: index.php");
+        } 
+        if ($_SESSION['access_level1']>2) {
+          header( "Location: home.php");  
+        }
+        echo "Enter Member Details"; 
+        ?>
     </title>
-
+    <!-- This is for loading external scripts -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
 </head>
 
 
 <body>
+    <!-- Code for the header tabs with different access levels for different users -->
     <div class="container">
         <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="add_member.php">New Member</a></li>
-            <li role="presentation"><a href="home.php">Manage Members</a></li>
-           <?php
-				$dbhost = "localhost";
-				$dbusername = "root";
-				$dbpassword = "";
-				$dbname = "tgym";
+            <?php
+            require_once ('db/db_config.php');
 
-				$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-				$db = mysql_select_db($dbname);
+            $connection = mysqli_connect($dbhost, $dbusername, $dbpassword,$dbname) or die('Could not connect');
 
-				date_default_timezone_set("Asia/Kolkata");
-				$today = date("Y-m-d");
+            date_default_timezone_set("Asia/Kolkata");
+            $today = date("Y-m-d");
 
-				$sql=mysql_query("select count(*) as total from member_info where dob like '%$today%' ");
-				$data=mysql_fetch_assoc($sql);
-				$birthday = $data['total'];
+            $sql=mysqli_query($connection,"select count(*) as total from member_info where dob like '%$today%' ");
+            $data=mysqli_fetch_assoc($sql);
 
-				if ($_SESSION['access_level1']==1)
-					{
-                        print('<li role="presentation" ><a href="manage_admin.php">Manage Admin</a></li>') ;
-                        print('<li role="presentation" ><a href="manage_package.php">Package & Offers</a></li>') ;
-                    }
-				
-				print ('<li role="presentation"><a href="birthday.php">Birthday <span class="badge">'.$birthday.'</span></a></li>');
-				?>
+            $birthday = $data['total'];
+            if ($_SESSION['access_level1']<3) {
+                print ('<li role="presentation" class="active"><a href="add_member.php">New Member</a></li>');    
+            } 
+            
+            print ('<li role="presentation"><a href="home.php">Manage Members</a></li>');
+            
+            if ($_SESSION['access_level1']<2)
+            {
+                print('<li role="presentation" ><a href="manage_admin.php">Manage Admin</a></li>') ;
+                print('<li role="presentation" ><a href="manage_package.php">Package & Offers</a></li>') ;
+            }
+
+            print ('<li role="presentation"><a href="birthday.php">Birthday <span class="badge">'.$birthday.'</span></a></li>');
+            ?>
             <button class="btn btn-primary pull-right btn-sm" type="button" onclick="window.location='index.php';">Logout</button>
         </ul>
     </div>
 
+
+
+
+<!-- HTML code for form -->
     <form role="form" id="new_member_form" name="new_member_form" class="form-horizontal" method="post" action="inserter.php" enctype="multipart/form-data">
         <input type="hidden" name="action" value="add_form" />
         <br>
@@ -78,8 +90,8 @@
                     <input type="radio" id="Gender" name="Gender" value="Male">Male</label>
                 <label class="radio-inline">
                     <input type="radio" id="Gender" name="Gender" value="Female">Female</label>
-                <label class="radio-inline">
-                    <input type="radio" id="Gender" name="Gender" value="Transgender">Transgender</label>
+                <!-- <label class="radio-inline">
+                    <input type="radio" id="Gender" name="Gender" value="Transgender">Transgender</label> -->
             </div>
         </div>
 
@@ -96,11 +108,11 @@
         <div class="form-group">
             <label for="Height" class="col-sm-2 control-label">Height</label>
             <div class="col-sm-1">
-                <input type="number" id="Height" class="form-control" name="Height" placeholder="In CM" max="999">
+                <input type="number" class="form-control" id="Height" name="Height" placeholder="In CM" max="999">
             </div>
             <label for="Weight" class="col-sm-1 control-label">Weight</label>
             <div class="col-sm-1">
-                <input type="number" id="Weight" class="form-control" name="Weight" placeholder="In KG" max="999">
+                <input type="number" class="form-control" id="Weight" name="Weight" placeholder="In KG" max="999">
             </div>
         </div>
 
@@ -163,6 +175,8 @@
         </div>
     </form>
 
+
+<!-- Modal to Confirm the details entered by the user -->
     <div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -171,7 +185,7 @@
 
                     <!-- We display the details entered by the user here -->
                     <table class="table">
-                        <tr>
+                                                <tr>
                             <th>Name:</th>
                             <td id="Name1"></td>
                         </tr>
@@ -235,7 +249,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a id="submit" class="btn btn-success success">Submit</a>
+                    <a id="submit" name="submit" class="btn btn-success success">Submit</a>
                 </div>
             </div>
         </div>
@@ -244,8 +258,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
-    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> -->
-    <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
     <script>
@@ -264,7 +276,7 @@
             });
 
             $('#btn-create').click(function() {
-                /* when the button in the form, display the entered values in the modal */
+                /* When form is submitted,displays the entered values in the modal */
            
                 $('#Name1').html($('#Name').val());
                 $('#DOB1').html($('#DOB').val());

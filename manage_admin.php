@@ -9,6 +9,9 @@
 		{
 			header("Location: index.php");
 		}
+		if ($_SESSION['access_level1']>1) {
+          header( "Location: home.php");  
+        }
 		echo "Welcome ".$_SESSION['name1'];
 		?>
 	</title>
@@ -27,19 +30,13 @@
 			<li role="presentation" ><a href="add_member.php">New Member</a></li>
 			<li role="presentation" ><a href="home.php">Manage Members</a></li>
 			<?php
-			$dbhost = "localhost";
-			$dbusername = "root";
-			$dbpassword = "";
-			$dbname = "tgym";
-
-			$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-			$db = mysql_select_db($dbname);
+			require_once ('db/db_config.php');
 
 			date_default_timezone_set("Asia/Kolkata");
 			$today = date("Y-m-d");
 
-			$sql=mysql_query("select count(*) as total from member_info where dob like '%$today%' ");
-			$data=mysql_fetch_assoc($sql);
+			$sql=mysqli_query($connection,"select count(*) as total from member_info where dob like '%$today%' ");
+			$data=mysqli_fetch_assoc($sql);
 			$birthday = $data['total'];
 
 			if ($_SESSION['access_level1']==1)
@@ -99,8 +96,8 @@
 	<tr><th>#</th><th>NAME</th><th>ACCESS_LEVEL</th></tr>
 
 	<?php
-	$sql=mysql_query("select * from admin_credentials ");
-	while($row=mysql_fetch_array($sql))
+	$sql=mysqli_query($connection,"select * from admin_credentials ");
+	while($row=mysqli_fetch_array($sql))
 	{	
 		$admin_id = $row['admin_id'];
 		$name = $row['name'];

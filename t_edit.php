@@ -28,22 +28,16 @@
 			<th>AMOUNT</th><th>PAID</th><th>REMAINING</th></tr>
 
 			<?php 
-			$dbhost = "localhost";
-			$dbusername = "root";
-			$dbpassword = "";
-			$dbname = "tgym";
-
-			$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-			$db = mysql_select_db($dbname);
+			require_once ('db/db_config.php');
 
 			date_default_timezone_set("Asia/Kolkata");
 			$today = date_create(date("Y-m-d"));
 
 			$member_id=$_GET['member_id'];
 
-			$sql=mysql_query("SELECT *,t.end_date-current_date as days_left FROM training_package t join packages p on t.package_id=p.package_id where t.member_id=$member_id order by t.end_date");
+			$sql=mysqli_query($connection,"SELECT *,DATEDIFF(t.end_date,current_date) as days_left FROM training_package t join packages p on t.package_id=p.package_id where t.member_id=$member_id order by t.end_date");
 			$i=1;
-			while($row=mysql_fetch_array($sql))
+			while($row=mysqli_fetch_array($sql))
 			{	
 				$p_name=$row['p_name'];
 				$p_duration=$row['p_duration'];
@@ -75,7 +69,7 @@
 
 		</table>
 		<form class="form-horizontal" method="post" id="package_form" 
-		action="inserterx.php?member_id=<?php echo $_GET['member_id'];?>&package=training">
+		action="inserter2.php?member_id=<?php echo $_GET['member_id'];?>&package=training&redirect=no">
 		<br>
 		<br>
 		<br>
@@ -83,7 +77,7 @@
 		<div class="form-group">
 	
 				<label for="b_package" class="col-sm-2 control-label">Add amount</label>
-				<div class="col-sm-2">
+				<div class="col-sm-3">
 					<input type="number" class="form-control" name="pending_amount" placeholder="Add Amount" >
 				</div>
 			</div>
@@ -91,13 +85,13 @@
 
 			<div class="form-group">
 				<label for="b_package" class="col-sm-2 control-label">Training Package</label>
-				<div class="col-sm-2">
+				<div class="col-sm-3">
 					<select name="t_package" id="t_package" class="form-control" data-style="btn-primary">
 						<option selected="selected" value="NULL">--Select Package--</option>
 						<?php
 
-						$sql1=mysql_query("select * from packages where p_name like '%PRIME_%'");
-						while($row1=mysql_fetch_array($sql1))
+						$sql1=mysqli_query($connection,"select * from packages where p_name like '%PRIME_%'");
+						while($row1=mysqli_fetch_array($sql1))
 						{
 							$package_id=$row1['package_id'];
 							$p_name=$row1['p_name'];

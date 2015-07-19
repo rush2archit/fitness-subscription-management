@@ -7,20 +7,16 @@
     {
       header("Location: index.php");
     }
+    if ($_SESSION['access_level1']>1) {
+          header( "Location: home.php");  
+        }
     ?>
   </title>
 </head>
 <body>
 
   <?php
-  $dbhost = "localhost";
-  $dbusername = "root";
-  $dbpassword = "";
-  $dbname = "tgym";
-
-  $connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-  $db = mysql_select_db($dbname);
-
+ require_once ('db/db_config.php');
 
 
     $package_name = $_POST['package_name'];
@@ -46,26 +42,9 @@
       $duration= $duration*30;
     }
     
-    
-
-/*    echo $package_name.'<br>';
-    echo $amount.'<br>';
-    echo $duration.'<br>';
-    echo $s_date.'<br>';
-*/
-
-    
-    //echo "insert into packages (p_name,p_amount,p_duration,p_wef,p_status) values('$package_name','$amount','$duration','$s_date','ACTIVE')";
-
-
-    mysql_query("insert into packages (p_name,p_amount,p_duration,p_wef,p_status) values('$package_name','$amount','$duration','$s_date','ACTIVE')") or die(mysql_error());
+    mysqli_query($connection,"insert into packages (p_name,p_amount,p_duration,p_wef,p_status) values('$package_name','$amount','$duration','$s_date','ACTIVE')") or die(mysqli_error());
   
   
-
-
-
-
-
   header("Location:manage_package.php");
 ?>
 </body>

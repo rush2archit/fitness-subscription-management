@@ -29,22 +29,16 @@
 			<th>AMOUNT</th><th>PAID</th><th>REMAINING</th></tr>
 
 			<?php 
-			$dbhost = "localhost";
-			$dbusername = "root";
-			$dbpassword = "";
-			$dbname = "tgym";
-
-			$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-			$db = mysql_select_db($dbname);
+			require_once ('db/db_config.php');
 
 			date_default_timezone_set("Asia/Kolkata");
 			$today = date_create(date("Y-m-d"));
 
 			$member_id=$_GET['member_id'];
 
-			$sql=mysql_query("SELECT *,d.end_date-current_date as days_left FROM diet_package d join packages p on d.package_id=p.package_id where d.member_id=$member_id order by d.end_date");
+			$sql=mysqli_query($connection,"SELECT *,DATEDIFF(d.end_date,current_date) as days_left FROM diet_package d join packages p on d.package_id=p.package_id where d.member_id=$member_id order by d.end_date");
 			$i=1;
-			while($row=mysql_fetch_array($sql))
+			while($row=mysqli_fetch_array($sql))
 			{	
 				$p_name=$row['p_name'];
 				$p_duration=$row['p_duration'];
@@ -76,7 +70,7 @@
 
 		</table>
 		<form class="form-horizontal" method="post" id="package_form" 
-		action="inserterx.php?member_id=<?php echo $_GET['member_id'];?>&package=diet">
+		action="inserter2.php?member_id=<?php echo $_GET['member_id'];?>&package=diet&redirect=no">
 		<br>
 		<br>
 		<br>
@@ -97,8 +91,8 @@
 						<option selected="selected" value="NULL">--Select Package--</option>
 						<?php
 
-						$sql1=mysql_query("select * from packages where p_name like 'D_%'");
-						while($row1=mysql_fetch_array($sql1))
+						$sql1=mysqli_query($connection,"select * from packages where p_name like 'D_%'");
+						while($row1=mysqli_fetch_array($sql1))
 						{
 							$package_id=$row1['package_id'];
 							$p_name=$row1['p_name'];

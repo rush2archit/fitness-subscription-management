@@ -2,17 +2,11 @@
 session_start();
 $admin_id=$_GET['id'];
 
-///echo $member_id;
-$dbhost = "localhost";
-$dbusername = "root";
-$dbpassword = "";
-$dbname = "tgym";
 
-$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-$db = mysql_select_db($dbname);
+require_once ('db/db_config.php');
 
-$sql=mysql_query("select * from admin_credentials where admin_id = $admin_id ");
-while($row=mysql_fetch_array($sql))
+$sql=mysqli_query($connection,"select * from admin_credentials where admin_id = $admin_id ");
+while($row=mysqli_fetch_array($sql))
 {	
 		$name = $row['name'];
 		$access_level = $row['access_level'];

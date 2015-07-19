@@ -1,70 +1,49 @@
 <?php
+
+session_start();
+
+
+require_once ('db/db_config.php');
+
+
+$username=$_POST['username'];
+$password=$_POST['password'];
+
+$numberofrows=0;
+/*using prepared statements to prevent sql injection*/
+$db = new mysqli($dbhost, $dbusername, $dbpassword,$dbname);
+$stmt = $db->prepare(" select admin_id,name,access_level,count(*) from admin_credentials where username = ? AND password = ?");
+$stmt->bind_param('ss',$username ,$password );
+$stmt->execute();
+
+
+
+
+      /* Bind results */
+      $stmt -> bind_result($ID,$name,$access_level,$count);
+
+      /* Fetch the value */
+      $stmt -> fetch();
+  
+
+//fetch admin id from db 
+
+	 $_SESSION['ID1'] = stripslashes(htmlspecialchars($ID));
+	 $_SESSION['name1'] = stripslashes(htmlspecialchars($name));
+	 $_SESSION['access_level1'] = stripslashes(htmlspecialchars($access_level));
+
 	
-	session_start();
+$stmt->close();
+if($count>0){
+	/*echo "id=".$ID."&name=".$name."&access_level=".$access_level;*/
+echo json_encode(array('success' => 'true'));
+}
+else {
+	/*returning the data back to the calling ajax function in index.php*/
 
-	/*$connection = mysql_connect("localhost", "root", ""); // Establishing Connection with Server..
-	$db = mysql_select_db("tgym", $connection); // Selecting Database
-	*/
-
-				$dbhost = "localhost";
-				$dbusername = "root";
-				$dbpassword = "";
-				$dbname = "tgym";
+echo json_encode(array('success' => 'error'));
+}
 
 
-				$username=$_POST['username'];
-				$password=$_POST['password'];
-
-				$numberofrows=0;
+?>
 	
-				$db = new mysqli($dbhost, $dbusername, $dbpassword,$dbname);
-				$stmt = $db->prepare(" select * from admin_credentials where username = ? AND password = ?");
-				$stmt->bind_param('ss',$username ,$password );
-				$stmt->execute();
-
-
-				$result = $stmt->get_result();
-
-				while ($row = $result->fetch_assoc()) {
-				    $ID=$row['admin_id'];
-					$name=$row['name'];
-					$access_level=$row['access_level'];
-					$_SESSION['ID1'] = stripslashes(htmlspecialchars($ID));
-					$_SESSION['name1'] = stripslashes(htmlspecialchars($name));
-					$_SESSION['access_level1'] = stripslashes(htmlspecialchars($access_level));
-
-					$numberofrows++;
-				}
-
-if($numberofrows>0){
-		echo "id=".$ID."&name=".$name."&access_level=".$access_level;
-	}
-	else {
-		echo "error";
-	}
-
-				$stmt->close();
-
-
-
-	//fetch admin id from db 
-	/*$sql=mysql_query("select * from admin_credentials where username like '$username' AND password like '$password'");
-				while($row=mysql_fetch_array($sql))
-				{
-					$ID=$row['admin_id'];
-					$name=$row['name'];
-					$access_level=$row['access_level'];
-					$_SESSION['ID1'] = stripslashes(htmlspecialchars($ID));
-					$_SESSION['name1'] = stripslashes(htmlspecialchars($name));
-					$_SESSION['access_level1'] = stripslashes(htmlspecialchars($access_level));
-	
-				}
-	if(mysql_num_rows($sql)>0){
-		echo "id=".$ID."&name=".$name."&access_level=".$access_level;
-	}
-	else {
-		echo "error";
-	}
-
-	mysql_close($connection); // Connection Closed*/
-	?>

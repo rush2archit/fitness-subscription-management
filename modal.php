@@ -2,17 +2,11 @@
 session_start();
 $member_id=$_GET['id'];
 
-///echo $member_id;
-$dbhost = "localhost";
-$dbusername = "root";
-$dbpassword = "";
-$dbname = "tgym";
+require_once ('db/db_config.php');
 
-$connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-$db = mysql_select_db($dbname);
-
-$sql=mysql_query("select * from member_info where member_id = $member_id ");
-while($row=mysql_fetch_array($sql))
+$sql=mysqli_query($connection,"select * from member_info where member_id = $member_id ");
+/*echo "select * from member_info where member_id = $member_id ";*/
+while($row=mysqli_fetch_array($sql))
 {	
 
 	$Name1  =$row['name'];
@@ -31,13 +25,10 @@ while($row=mysql_fetch_array($sql))
 	$Marital_Status1   =$row['m_status'];
 	$Emergency_Name1   =$row['e_name'];
 	$Emergency_Contact1=$row['e_contact'];
+	$image_ext		   =$row['image_ext'];
 
-
-
-
-	//print "<big><b>Customer Details</b></big>";	
 	print "<table class='table'>";
-	print "<img src='images/$member_id.jpg'  alt='icon' style='width:70px;height:70px;'>";
+	print "<img src='images/$image_ext'  alt='icon' style='width:150px;height:150px;'>";
 	print "<tr><th>Name:</th><td id='Name1'>$Name1 - $Contact1</td></tr>";
 	print "<tr><th>DOB:</th><td id='DOB1'>$DOB1</td><th>Height:</th><td id='Height1'>$Height1</td></tr>";
 	print "<tr><th>DOJ:</th><td id='DOJ1'>$DOJ1</td><th>Weight:</th><td id='Weight1'>$Weight1</td></tr>";

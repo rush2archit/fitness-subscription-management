@@ -7,19 +7,16 @@
     {
       header("Location: index.php");
     }
+    if ($_SESSION['access_level1']>1) {
+          header( "Location: home.php");  
+        }
     ?>
   </title>
 </head>
 <body>
 
   <?php
-  $dbhost = "localhost";
-  $dbusername = "root";
-  $dbpassword = "";
-  $dbname = "tgym";
-
-  $connection = mysql_connect($dbhost, $dbusername, $dbpassword) or die('Could not connect');
-  $db = mysql_select_db($dbname);
+  require_once ('db/db_config.php');
 
     $action = $_GET['action'];
 
@@ -38,11 +35,11 @@
   
   switch ($action) {
     case "new":
-    mysql_query("insert into admin_credentials (name,username,password,access_level) values('$name','$username','$password','$access_level')") or die(mysql_error());
+    mysqli_query($connection,"insert into admin_credentials (name,username,password,access_level) values('$name','$username','$password','$access_level')") or die(mysqli_error());
     break;
 
     case "update":
-    mysql_query("UPDATE admin_credentials SET password = '$password' , access_level = $access_level where admin_id = $admin_id ");
+    mysqli_query($connection,"UPDATE admin_credentials SET password = '$password' , access_level = $access_level where admin_id = $admin_id ");
     break;
 
     default:
