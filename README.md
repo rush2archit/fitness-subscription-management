@@ -24,3 +24,5 @@
 - MYSql
 - JavaScript
 - AJAX
+
+# SEE TGYM.png for dataflow 
