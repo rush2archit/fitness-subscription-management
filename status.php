@@ -11,10 +11,12 @@ if ($p_status=='ACTIVE') {
 	$p_status='ACTIVE';
 }
 
-mysql_query("update packages set p_status = '$p_status' where package_id=$package_id") or die('error');
+mysqli_query( $connection,"update packages set p_status = '$p_status' where package_id=$package_id") or die('error');
+echo "----";
 print "<tr><th>#</th><th>PACKAGE</th><th>AMOUNT</th><th>DURATION</th><th>EFFECTIVE SINCE</th><th>STATUS</th></tr>";
-$sql=mysql_query("select * from packages order by p_status,package_id");
-while($row=mysql_fetch_array($sql))
+
+$sql=mysqli_query( $connection,"select * from packages order by p_status,package_id");
+while($row=mysqli_fetch_array($sql))
 {	
 		$package_id = $row['package_id'];
 		$p_name = $row['p_name'];
@@ -22,9 +24,6 @@ while($row=mysql_fetch_array($sql))
 		$p_duration = $row['p_duration'];
 		$p_wef = $row['p_wef'];
 		$p_status = $row['p_status'];
-
-
-
 
 			print "<tr><td>";
 			echo $package_id;
