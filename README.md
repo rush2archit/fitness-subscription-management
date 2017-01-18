@@ -1,7 +1,7 @@
-# tgym - Gym Management system
+# fitness-subscription-management - Gym Management system
 
 
-**Tgym is a small gym management system empowering the gym owner to manage subscriptions (gym, trainer & diet)  of their clients.**
+**fitness-subscription-management is a small gym management system empowering the gym owner to manage subscriptions (gym, trainer & diet)  of their clients.**
  
 ## Various modules include  
  - Addition of new members  
